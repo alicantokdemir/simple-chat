@@ -8,7 +8,6 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"strings"
 )
 
 type message struct {
@@ -85,12 +84,13 @@ func connectTo(address string) (io.ReadCloser, error) {
 }
 
 func readFromConsole(inst string) string {
-	reader := bufio.NewReader(os.Stdin)
+	scanner := bufio.NewScanner(os.Stdin)
 	if inst == "" {
 		inst = "Enter command"
 	}
 	fmt.Print(inst + ": ")
-	text, _ := reader.ReadString('\n')
-	text = strings.Trim(text, " \n")
+	scanner.Scan()
+	text := scanner.Text()
+	fmt.Println(text)
 	return text
 }
